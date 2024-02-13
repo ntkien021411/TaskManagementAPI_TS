@@ -10,14 +10,8 @@ import dotenv from "dotenv";
 dotenv.config();
 const port: Number | String = process.env.PORT || 3000;
 
-import Task from "./models/task.model";
-app.get("/tasks", async (req: Request, res: Response) => {
-  const task = await Task.find({
-    deleted: false,
-  });
-
-  res.json(task);
-});
+import mainV1Routes from "./api/v1/routes/index.route";
+mainV1Routes(app);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
