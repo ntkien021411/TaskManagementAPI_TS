@@ -1,6 +1,7 @@
 import  { Request, Response } from "express";
 import Task from "../models/task.model";
 import pagination from "../../../helpers/pagination";
+import search from "../../../helpers/search";
 //Filter/Sort/Pagination/Search
 //[GET] /api/v1/tasks
 //[GET] /api/v1/tasks?status=...&sortKey=title&sortValue=asc
@@ -11,7 +12,7 @@ export const index = async (req:Request, res:Response) => {
   interface Find {
     deleted: boolean,
     status? :String,
-    title? : String,
+    title? : RegExp,
   }
 
   const find : Find = {
@@ -27,10 +28,10 @@ export const index = async (req:Request, res:Response) => {
   }
 
   //Search Title
-  // let objectSearch = search(req.query);
-  // if (req.query.keyword) {
-  //   find.title = objectSearch.regex;
-  // }
+  let objectSearch = search(req.query);
+  if (req.query.keyword) {
+    find.title = objectSearch.regex;
+  }
 
   //Total Page
   let countTask = await Task.countDocuments(find);
