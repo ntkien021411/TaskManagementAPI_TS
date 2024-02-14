@@ -71,30 +71,30 @@ export const detail = async (req:Request, res:Response) => {
   }
 };
 
-// //[PATCH] /api/v1/tasks/change-status/:id
-// module.exports.changeStatus = async (req, res) => {
-//   try {
-//     const id = req.params.id;
-//     const status = req.body.status;
-//     await Task.updateOne(
-//       {
-//         _id: id,
-//       },
-//       {
-//         status: status,
-//       }
-//     );
-//     res.json({
-//       code: 200,
-//       message: "Cập nhật trạng thái thành công!",
-//     });
-//   } catch (error) {
-//     res.json({
-//       code: 400,
-//       message: "Không tồn tại!",
-//     });
-//   }
-// };
+//[PATCH] /api/v1/tasks/change-status/:id
+export const changeStatus = async (req:Request, res:Response)  => {
+  try {
+    const id : string = req.params.id;
+    const status : string = req.body.status;
+    await Task.updateOne(
+      {
+        _id: id,
+      },
+      {
+        status: status,
+      }
+    );
+    res.json({
+      code: 200,
+      message: "Cập nhật trạng thái thành công!",
+    });
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: "Không tồn tại!",
+    });
+  }
+};
 
 // //[PATCH] /api/v1/tasks/change-multi
 // module.exports.changeMulti = async (req, res) => {

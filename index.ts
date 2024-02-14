@@ -1,6 +1,11 @@
 import express, { Express, Request, Response } from "express";
 const app: Express = express();
 
+//Body Parser New
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+
+
 //Connect Database
 import * as database from "./config/database";
 database.connect();
