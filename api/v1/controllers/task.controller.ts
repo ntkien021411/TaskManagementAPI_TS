@@ -96,55 +96,57 @@ export const changeStatus = async (req:Request, res:Response)  => {
   }
 };
 
-// //[PATCH] /api/v1/tasks/change-multi
-// module.exports.changeMulti = async (req, res) => {
-//   try {
-//     const { ids, key, value } = req.body;
-//     switch (key) {
-//       case "status":
-//         await Task.updateMany(
-//           {
-//             _id: { $in: ids },
-//           },
-//           {
-//             status: value,
-//           }
-//         );
-//         res.json({
-//           code: 200,
-//           message: "Cập nhật trạng thái thành công!",
-//         });
-//         break;
-//       case "delete":
-//         await Task.updateMany(
-//           {
-//             _id: { $in: ids },
-//           },
-//           {
-//             deleted: true,
-//             deletedAt: new Date(),
-//           }
-//         );
-//         res.json({
-//           code: 200,
-//           message: "Xóa nhiều nhiệm vụ thành công!",
-//         });
-//         break;
+//[PATCH] /api/v1/tasks/change-multi
+export const changeMulti = async (req:Request, res:Response)  => {
+  try {
+    const ids:String[] = req.body.ids;
+    const  key:String = req.body.key;
+    const value:String = req.body.value;
+    switch (key) {
+      case "status":
+        await Task.updateMany(
+          {
+            _id: { $in: ids },
+          },
+          {
+            status: value,
+          }
+        );
+        res.json({
+          code: 200,
+          message: "Cập nhật trạng thái thành công!",
+        });
+        break;
+      case "delete":
+        await Task.updateMany(
+          {
+            _id: { $in: ids },
+          },
+          {
+            deleted: true,
+            deletedAt: new Date(),
+          }
+        );
+        res.json({
+          code: 200,
+          message: "Xóa nhiều nhiệm vụ thành công!",
+        });
+        break;
 
-//       default:
-//         res.json({
-//           code: 400,
-//           message: "Không tồn tại!",
-//         });
-//         break;
-//     }
-//   } catch (error) {
-//     res.json({
-//       code: 400,
-//       message: "Không tồn tại!",
-//     });
-//   }
-// };
+      default:
+        res.json({
+          code: 400,
+          message: "Không tồn tại!",
+        });
+        break;
+    }
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: "Không tồn tại!",
+    });
+  }
+};
 
 // //[POST] /api/v1/tasks/create
 // module.exports.create = async (req, res) => {

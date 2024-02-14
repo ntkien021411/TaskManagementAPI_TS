@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from "express";
 const app: Express = express();
 
-//Body Parser New
+//Body Parser New :Thay cho việc install thư viện bodyParser
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
