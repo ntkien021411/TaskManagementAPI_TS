@@ -18,7 +18,8 @@ controller.login);
 
 // router.post("/password/reset",controller.resetPassword);
 
-// router.get("/password/detail",authMiddleware.requireAuth,controller.detail);
+router.get("/detail/:id",
+controller.detail);
 
 // router.get("/list",authMiddleware.requireAuth,controller.list);
 export const userRoutes: Router = router;

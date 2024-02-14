@@ -1,41 +1,41 @@
-import  { Request, Response } from "express";
+import { Request, Response } from "express";
 import User from "../models/user.model";
-import md5 from "md5"
-import * as generateToken  from "../../../helpers/generateToken";
+import md5 from "md5";
+import * as generateToken from "../../../helpers/generateToken";
 
 // const ForgotPassword = require("../models/forgot-password.model");
 // const md5 = require("md5");
 // const generateToken = require("../../../helpers/generateToken");
 // const sendMailHelper = require("../../../helpers/sendMail");
 //[POST] /api/v1/users/register
-export const register = async (req:Request, res:Response) => {
+export const register = async (req: Request, res: Response) => {
   // try {
-    const existEmail = await User.findOne({
+  const existEmail = await User.findOne({
+    email: req.body.email,
+    deleted: false,
+  });
+  if (!existEmail) {
+    const user = new User({
+      fullName: req.body.fullName,
       email: req.body.email,
-      deleted: false,
+      password: md5(req.body.password),
+      token: generateToken.generateRandomString(30),
     });
-    if (!existEmail) {
-      const user = new User({
-        fullName: req.body.fullName,
-        email: req.body.email,
-        password: md5(req.body.password),
-        token : generateToken.generateRandomString(30)
-      });
-      const data = await user.save();
+    const data = await user.save();
 
-      const token = data.token;
-      res.cookie("token", token);
-      res.json({
-        code: 200,
-        message: "Tạo mới tài khoản thành công!",
-        token: token,
-      });
-    } else {
-      res.json({
-        code: 400,
-        message: "Email đã tồn tại",
-      });
-    }
+    const token = data.token;
+    res.cookie("token", token);
+    res.json({
+      code: 200,
+      message: "Tạo mới tài khoản thành công!",
+      token: token,
+    });
+  } else {
+    res.json({
+      code: 400,
+      message: "Email đã tồn tại",
+    });
+  }
   // } catch (error) {
   //   res.json({
   //     code: 400,
@@ -45,9 +45,9 @@ export const register = async (req:Request, res:Response) => {
 };
 
 //[POST] /api/v1/users/login
-export const login = async (req:Request, res:Response) => {
-  const email : string = req.body.email;
-  const password :string = req.body.password;
+export const login = async (req: Request, res: Response) => {
+  const email: string = req.body.email;
+  const password: string = req.body.password;
 
   const user = await User.findOne({
     email: email,
@@ -173,15 +173,19 @@ export const login = async (req:Request, res:Response) => {
 //   });
 // };
 
-// //[GET] /api/v1/users/detail
-// module.exports.detail = async (req, res) => {
- 
-//   res.json({
-//     code: 200,
-//     message: "Thành công!",
-//     info: req.user,
-//   });
-// };
+//[GET] /api/v1/users/detail/:id
+export const detail = async (req: Request, res: Response) => {
+  const id: string = req.params.id;
+  const user = await User.findOne({
+    _id: id,
+    deleted: false,
+  }).select("-password -token");
+  res.json({
+    code: 200,
+    message: "Thành công!",
+    info : user
+  });
+};
 
 // //[GET] /api/v1/users/list
 // module.exports.list = async (req, res) => {
