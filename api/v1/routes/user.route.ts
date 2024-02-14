@@ -1,6 +1,6 @@
+import { requireAuth } from './../middlewares/auth.middleware';
 import { Router, Request, Response } from "express";
 import * as controller from "../controllers/user.controller";
-
 const router: Router = Router();
 
 // const authMiddleware = require("../middlewares/auth.middleware");
@@ -19,7 +19,10 @@ controller.login);
 // router.post("/password/reset",controller.resetPassword);
 
 router.get("/detail/:id",
+requireAuth,
 controller.detail);
 
-// router.get("/list",authMiddleware.requireAuth,controller.list);
+router.get("/list",
+requireAuth,
+controller.list);
 export const userRoutes: Router = router;
