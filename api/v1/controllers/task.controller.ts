@@ -189,27 +189,27 @@ export const edit = async (req:Request, res:Response)  => {
   }
 };
 
-// //[DELETE] /api/v1/tasks/delete/:id
-// module.exports.delete = async (req:Request, res:Response)  => {
-//   try {
-//     const id = req.params.id;
-//     await Task.updateOne(
-//       {
-//         _id: id,
-//       },
-//       {
-//         deleted: true,
-//         deletedAt: new Date(),
-//       }
-//     );
-//     res.json({
-//       code: 200,
-//       message: "Xóa thành công!",
-//     });
-//   } catch (error) {
-//     res.json({
-//       code: 400,
-//       message: "Không tồn tại!",
-//     });
-//   }
-// };
+//[DELETE] /api/v1/tasks/delete/:id
+export const deleted = async (req:Request, res:Response)  => {
+  try {
+    const id :string = req.params.id;
+    await Task.updateOne(
+      {
+        _id: id,
+      },
+      {
+        deleted: true,
+        deletedAt: new Date(),
+      }
+    );
+    res.json({
+      code: 200,
+      message: "Xóa thành công!",
+    });
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: "Không tồn tại!",
+    });
+  }
+};
