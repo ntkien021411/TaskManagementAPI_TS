@@ -117,6 +117,7 @@ export const changeMulti = async (req:Request, res:Response)  => {
           message: "Cập nhật trạng thái thành công!",
         });
         break;
+        //Xóa nhiều
       case "delete":
         await Task.updateMany(
           {
