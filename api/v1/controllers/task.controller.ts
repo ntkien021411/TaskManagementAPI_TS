@@ -1,6 +1,6 @@
 import  { Request, Response } from "express";
 import Task from "../models/task.model";
-
+import pagination from "../../../helpers/pagination";
 //Filter/Sort/Pagination/Search
 //[GET] /api/v1/tasks
 //[GET] /api/v1/tasks?status=...&sortKey=title&sortValue=asc
@@ -26,20 +26,20 @@ export const index = async (req:Request, res:Response) => {
     find.status = req.query.status.toString();
   }
 
-  // //Search Title
+  //Search Title
   // let objectSearch = search(req.query);
   // if (req.query.keyword) {
   //   find.title = objectSearch.regex;
   // }
 
-  // //Total Page
-  // let countTask = await Task.countDocuments(find);
-  // //PAGINATION
-  // let initPagination = {
-  //   limitItem: 2,
-  //   currentPage: 1,
-  // };
-  // let objectPagination = pagination(req.query, initPagination, countTask);
+  //Total Page
+  let countTask = await Task.countDocuments(find);
+  //PAGINATION
+  let initPagination = {
+    limitItem: 2,
+    currentPage: 1,
+  };
+  let objectPagination = pagination(req.query, initPagination, countTask);
 
   //Sort
   const sort = { };
@@ -50,8 +50,8 @@ export const index = async (req:Request, res:Response) => {
   //Result
   const task = await Task.find(find)
     .sort(sort)
-    // .limit(objectPagination.limitItem)
-    // .skip(objectPagination.skip);
+    .limit(objectPagination.limitItem)
+    .skip(objectPagination.skip);
 
   res.json(task);
 };
