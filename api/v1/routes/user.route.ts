@@ -8,7 +8,9 @@ router.post("/register",
 // validate.registerAccount,
 controller.register);
 
-// router.post("/login",validate.loginAccount,controller.login);
+router.post("/login",
+// validate.loginAccount,
+controller.login);
 
 // router.post("/password/forgot",controller.forgotPassword);
 
