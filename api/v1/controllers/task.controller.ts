@@ -6,48 +6,55 @@ import Task from "../models/task.model";
 //[GET] /api/v1/tasks?status=...&sortKey=title&sortValue=asc
 //[GET] /api/v1/tasks?page=1&limit=3
 //[GET] /api/v1/tasks?keyword=...
-// module.exports.index = async (req, res) => {
-//   const find = {
-//     $or : [
-//       {createdBy : req.user.id},
-//       {listUser : req.user.id}
-//     ],
-//     deleted: false,
-//   };
-//   //Filter Status:Trạng thái
-//   if (req.query.status) {
-//     find.status = req.query.status;
-//   }
+export const index = async (req:Request, res:Response) => {
 
-//   //Search Title
-//   let objectSearch = search(req.query);
-//   if (req.query.keyword) {
-//     find.title = objectSearch.regex;
-//   }
+  interface Find {
+    deleted: boolean,
+    status? :String,
+    title? : String
+  }
 
-//   //Total Page
-//   let countTask = await Task.countDocuments(find);
-//   //PAGINATION
-//   let initPagination = {
-//     limitItem: 2,
-//     currentPage: 1,
-//   };
-//   let objectPagination = pagination(req.query, initPagination, countTask);
+  const find : Find = {
+    // $or : [
+    //   {createdBy : req.user.id},
+    //   {listUser : req.user.id}
+    // ],
+    deleted: false,
+  };
+  // Filter Status:Trạng thái
+  if (req.query.status) {
+    find.status = req.query.status.toString();
+  }
 
-//   //Sort
-//   const sort = {};
-//   if (req.query.sortKey && req.query.sortValue) {
-//     sort[req.query.sortKey] = req.query.sortValue;
-//   }
+  // //Search Title
+  // let objectSearch = search(req.query);
+  // if (req.query.keyword) {
+  //   find.title = objectSearch.regex;
+  // }
 
-//   //Result
-//   const task = await Task.find(find)
-//     .sort(sort)
-//     .limit(objectPagination.limitItem)
-//     .skip(objectPagination.skip);
+  // //Total Page
+  // let countTask = await Task.countDocuments(find);
+  // //PAGINATION
+  // let initPagination = {
+  //   limitItem: 2,
+  //   currentPage: 1,
+  // };
+  // let objectPagination = pagination(req.query, initPagination, countTask);
 
-//   res.json(task);
-// };
+  //Sort
+  // const sort = {};
+  // if (req.query.sortKey && req.query.sortValue) {
+  //   sort[req.query.sortKey] = req.query.sortValue;
+  // }
+
+  //Result
+  const task = await Task.find(find)
+    // .sort(sort)
+    // .limit(objectPagination.limitItem)
+    // .skip(objectPagination.skip);
+
+  res.json(task);
+};
 
 //[GET] /api/v1/tasks/detail/:id
 export const detail = async (req:Request, res:Response) => {
