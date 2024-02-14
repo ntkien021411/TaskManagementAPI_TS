@@ -10,6 +10,16 @@ app.use(express.urlencoded({extended:true}));
 import * as database from "./config/database";
 database.connect();
 
+//CORS
+// var corsOptions = {
+//   origin: 'http://example.com',
+//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+// }
+// app.use(cors(corsOptions));
+import cors from "cors"
+app.use(cors());
+
+
 // ENV
 import dotenv from "dotenv";
 dotenv.config();
