@@ -149,7 +149,7 @@ export const changeMulti = async (req:Request, res:Response)  => {
 };
 
 //[POST] /api/v1/tasks/create
-export const create = async (req, res) => {
+export const create = async (req:Request, res:Response)  => {
   try {
     // req.body.createdBy = req.user.id;
     const task = new Task(req.body);
@@ -167,30 +167,30 @@ export const create = async (req, res) => {
   }
 };
 
-// //[PATCH] /api/v1/tasks/edit/:id
-// module.exports.edit = async (req, res) => {
-//   try {
-//     const id = req.params.id;
-//     await Task.updateOne(
-//       {
-//         _id: id,
-//       },
-//       req.body
-//     );
-//     res.json({
-//       code: 200,
-//       message: "Cập nhật nhiệm vụ thành công!",
-//     });
-//   } catch (error) {
-//     res.json({
-//       code: 400,
-//       message: "Cập nhật thất bại!",
-//     });
-//   }
-// };
+//[PATCH] /api/v1/tasks/edit/:id
+export const edit = async (req:Request, res:Response)  => {
+  try {
+    const id:string = req.params.id;
+    await Task.updateOne(
+      {
+        _id: id,
+      },
+      req.body
+    );
+    res.json({
+      code: 200,
+      message: "Cập nhật nhiệm vụ thành công!",
+    });
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: "Cập nhật thất bại!",
+    });
+  }
+};
 
 // //[DELETE] /api/v1/tasks/delete/:id
-// module.exports.delete = async (req, res) => {
+// module.exports.delete = async (req:Request, res:Response)  => {
 //   try {
 //     const id = req.params.id;
 //     await Task.updateOne(
