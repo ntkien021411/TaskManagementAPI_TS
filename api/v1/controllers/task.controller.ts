@@ -11,7 +11,7 @@ export const index = async (req:Request, res:Response) => {
   interface Find {
     deleted: boolean,
     status? :String,
-    title? : String
+    title? : String,
   }
 
   const find : Find = {
@@ -42,14 +42,14 @@ export const index = async (req:Request, res:Response) => {
   // let objectPagination = pagination(req.query, initPagination, countTask);
 
   //Sort
-  // const sort = {};
-  // if (req.query.sortKey && req.query.sortValue) {
-  //   sort[req.query.sortKey] = req.query.sortValue;
-  // }
+  const sort = { };
+  if (req.query.sortKey && req.query.sortValue) {
+    sort[req.query.sortKey.toLocaleString()] = req.query.sortValue;
+  }
 
   //Result
   const task = await Task.find(find)
-    // .sort(sort)
+    .sort(sort)
     // .limit(objectPagination.limitItem)
     // .skip(objectPagination.skip);
 
